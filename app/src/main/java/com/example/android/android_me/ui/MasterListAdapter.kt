@@ -31,7 +31,7 @@ class MasterListAdapter
  * Keeps track of the context and list of images to display
  * @param imageIds The list of images to display
  */
-g(private val mContext: Context, private val mImageIds: List<Int>) : BaseAdapter() {
+(private val mContext: Context, private val mImageIds: List<Int>) : BaseAdapter() {
 
     /**
      * Returns the number of items the adapter will display
