@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 
 import com.example.android.android_me.R
+import com.example.android.android_me.data.AndroidImageAssets
 
 // This activity will display a custom Android image composed of three body parts: head, body, and legs
 class AndroidMeActivity : AppCompatActivity() {
@@ -28,9 +29,19 @@ class AndroidMeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_android_me)
 
-        val headFragment = BodyPartFragment()
-        supportFragmentManager.beginTransaction()
-                .add(R.id.head_container, headFragment)
-                .commit()
+        val containers = arrayOf(R.id.head_container, R.id.body_container, R.id.leg_container)
+        val fragments = arrayOf(
+                BodyPartFragment(AndroidImageAssets.heads),
+                BodyPartFragment(AndroidImageAssets.bodies),
+                BodyPartFragment(AndroidImageAssets.legs)
+        )
+        val elements = containers.zip(fragments)
+
+        elements.map {
+            (id, fragment) ->
+                supportFragmentManager.beginTransaction()
+                        .add(id, fragment)
+                        .commit()
+        }
     }
 }
