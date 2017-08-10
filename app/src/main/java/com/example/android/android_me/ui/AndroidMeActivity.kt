@@ -18,6 +18,7 @@ package com.example.android.android_me.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 
 import com.example.android.android_me.R
 import com.example.android.android_me.data.AndroidImageAssets
@@ -25,10 +26,20 @@ import com.example.android.android_me.data.AndroidImageAssets
 // This activity will display a custom Android image composed of three body parts: head, body, and legs
 class AndroidMeActivity : AppCompatActivity() {
 
+    companion object {
+        val TAG = "AndroidMeActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_android_me)
 
+        if (savedInstanceState == null) {
+            setupFragments()
+        }
+    }
+
+    fun setupFragments() {
         val containers = arrayOf(R.id.head_container, R.id.body_container, R.id.leg_container)
         val fragments = arrayOf(
                 BodyPartFragment(AndroidImageAssets.heads),
@@ -37,11 +48,10 @@ class AndroidMeActivity : AppCompatActivity() {
         )
         val elements = containers.zip(fragments)
 
-        elements.map {
-            (id, fragment) ->
-                supportFragmentManager.beginTransaction()
-                        .add(id, fragment)
-                        .commit()
+        elements.map { (id, fragment) ->
+            supportFragmentManager.beginTransaction()
+                    .add(id, fragment)
+                    .commit()
         }
     }
 }
