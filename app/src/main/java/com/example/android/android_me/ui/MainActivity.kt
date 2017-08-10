@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity(), MasterListFragment.OnImageClickListene
     override fun onImageSelected(position: Int) {
 //        Snackbar.make(findViewById(R.id.master_list_fragment), "Position clicked = " + position, Snackbar.LENGTH_SHORT).show()
 
-        val bodyPartIndex = position / 12
-        val listIndex = position - 12 * bodyPartIndex
+        val bodyPartIndex: Int = position / 12
+        val listIndex: Int = position - 12 * bodyPartIndex
 
-        when (listIndex) {
+        when (bodyPartIndex) {
             0 -> headIndex = listIndex
             1 -> bodyIndex = listIndex
             2 -> legIndex = listIndex
@@ -39,6 +39,9 @@ class MainActivity : AppCompatActivity(), MasterListFragment.OnImageClickListene
         intent.putExtras(b)
 
         val button = findViewById(R.id.btn_next) as Button
-        button.setOnClickListener { startActivity(intent) }
+        button.setOnClickListener {
+//            Snackbar.make(findViewById(R.id.master_list_grid), b.toString(), Snackbar.LENGTH_LONG).show()
+            startActivity(intent)
+        }
     }
 }

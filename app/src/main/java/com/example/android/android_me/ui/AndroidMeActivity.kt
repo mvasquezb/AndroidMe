@@ -41,11 +41,18 @@ class AndroidMeActivity : AppCompatActivity() {
 
     fun setupFragments() {
         val containers = arrayOf(R.id.head_container, R.id.body_container, R.id.leg_container)
+        val partIndices = arrayOf(
+                intent.getIntExtra("headIndex", 0),
+                intent.getIntExtra("bodyIndex", 0),
+                intent.getIntExtra("legIndex", 0)
+        )
         val fragments = arrayOf(
                 BodyPartFragment(AndroidImageAssets.heads),
                 BodyPartFragment(AndroidImageAssets.bodies),
                 BodyPartFragment(AndroidImageAssets.legs)
         )
+        fragments.zip(partIndices)
+                .map { it.first.mImageIndex = it.second }
         val elements = containers.zip(fragments)
 
         elements.map { (id, fragment) ->
