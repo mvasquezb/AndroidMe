@@ -27,5 +27,10 @@ class AndroidMeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_android_me)
+
+        val headFragment = BodyPartFragment()
+        supportFragmentManager.beginTransaction()
+                .add(R.id.head_container, headFragment)
+                .commit()
     }
 }
