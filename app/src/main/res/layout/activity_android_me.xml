@@ -17,7 +17,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.android_me.ui.AndroidMeActivity">
 
-    <!-- LinearLayout for holding three Android-Me images -->
     <LinearLayout
         android:id="@+id/android_me_linear_layout"
         android:layout_width="match_parent"
