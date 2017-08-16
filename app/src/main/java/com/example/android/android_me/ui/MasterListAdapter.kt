@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
+import com.example.android.android_me.R
 
 
 // Custom adapter class that displays a list of Android-Me images in a GridView
@@ -32,20 +33,27 @@ class MasterListAdapter
  * @param imageIds The list of images to display
  */
 (private val mContext: Context, private val mImageIds: List<Int>) : BaseAdapter() {
+    private val mChecked = BooleanArray(mImageIds.size)
 
     /**
      * Returns the number of items the adapter will display
      */
-    override fun getCount(): Int {
-        return mImageIds.size
+    override fun getCount(): Int = mImageIds.size
+
+    override fun getItem(i: Int): Any? = mImageIds[i]
+
+    override fun getItemId(i: Int): Long = 0
+
+    fun setCheckedAt(i: Int, checked: Boolean) {
+        mChecked[i] = checked
     }
 
-    override fun getItem(i: Int): Any? {
-        return null
+    fun toggleCheckedAt(i: Int) {
+        mChecked[i] = !mChecked[i]
     }
 
-    override fun getItemId(i: Int): Long {
-        return 0
+    fun getCheckedAt(i: Int): Boolean {
+        return mChecked[i]
     }
 
     /**
@@ -64,9 +72,14 @@ class MasterListAdapter
             imageView = convertView as ImageView
         }
 
+        if (getCheckedAt(position)) {
+            imageView.setBackgroundColor(R.color.material_blue_grey_800)
+        } else {
+            imageView.setBackgroundColor(android.R.color.transparent)
+        }
+
         // Set the image resource and return the newly created ImageView
         imageView.setImageResource(mImageIds[position])
         return imageView
     }
-
 }

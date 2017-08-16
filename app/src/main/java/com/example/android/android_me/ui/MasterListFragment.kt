@@ -42,6 +42,7 @@ class MasterListFragment : Fragment() {
 
         gridView.setOnItemClickListener { adapterView, view, position, l ->
             mImageClickCallback?.onImageSelected(position)
+            (gridView.adapter as MasterListAdapter).notifyDataSetChanged()
         }
 
         return rootView

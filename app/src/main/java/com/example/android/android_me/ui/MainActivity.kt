@@ -13,23 +13,29 @@ import com.example.android.android_me.data.AndroidImageAssets
 
 class MainActivity : AppCompatActivity(), MasterListFragment.OnImageClickListener {
     var headIndex = 0
+    var headClicked = false
     var bodyIndex = 0
+    var bodyClicked = false
     var legIndex = 0
+    var legClicked = false
 
     // Track whether we are in two-pane or single-pane mode
     var mTwoPane = false
+
+    private lateinit var gridView: GridView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        gridView = findViewById(R.id.master_list_grid) as GridView
         if (findViewById(R.id.android_me_linear_layout) != null) {
             mTwoPane = true
 
             // Hide 'Next' button
             (findViewById(R.id.btn_next) as Button).visibility = View.GONE
             // Set grid view columns to 2
-            (findViewById(R.id.master_list_grid) as GridView).numColumns = 2
+            gridView.numColumns = 2
 
             if (savedInstanceState == null) {
                 setupFragments()
@@ -41,11 +47,33 @@ class MainActivity : AppCompatActivity(), MasterListFragment.OnImageClickListene
         val bodyPartIndex: Int = position / 12
         val listIndex: Int = position - 12 * bodyPartIndex
 
+        var oldPosition = bodyPartIndex * 12
+        var hasChanged = false
         when (bodyPartIndex) {
-            0 -> headIndex = listIndex
-            1 -> bodyIndex = listIndex
-            2 -> legIndex = listIndex
+            0 -> {
+                oldPosition += headIndex
+                headIndex = listIndex
+                hasChanged = hasChanged || headClicked
+                headClicked = true
+            }
+            1 -> {
+                oldPosition += bodyIndex
+                bodyIndex = listIndex
+                hasChanged = hasChanged || bodyClicked
+                bodyClicked = true
+            }
+            2 -> {
+                oldPosition += legIndex
+                legIndex = listIndex
+                hasChanged = hasChanged || legClicked
+                legClicked = true
+            }
         }
+        if (hasChanged) {
+            (gridView.adapter as MasterListAdapter).toggleCheckedAt(oldPosition)
+        }
+        (gridView.adapter as MasterListAdapter).toggleCheckedAt(position)
+
 
         if (mTwoPane) {
             var imageList: List<Int>
